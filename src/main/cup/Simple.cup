@@ -11,7 +11,6 @@ action code {:
     // pour utilisation dans les actions (classe action)
 :};
 
-
 parser code {:
     // pour le parser (redefinition de la methode reportant les erreurs d'analyse)
     public void report_error(String message, Object info) {
@@ -40,7 +39,7 @@ parser code {:
 :};
 
 /* symboles terminaux */
-terminal VERBE, PRONOM, ADJECTIF, POINT;
+terminal NUMBER, PLUS, MINUS, MULT, DIV, FINISH;
 terminal ERROR;
 
 /* non terminaux */
@@ -48,9 +47,23 @@ non terminal phrase , texte;
 
 /* grammaire */
 
-texte   ::= phrase texte 
-          | phrase ; 
-phrase  ::= PRONOM VERBE ADJECTIF {: System.out.println("OK"); :} POINT 
-          | error POINT 
-          ;
-
+expr   ::=
+        expr:e1 PLUS expr:e2
+          {: RESULT = new Integer(e1 + e2); :}
+        |
+        expr:e1 MINUS expr:e2
+          {: RESULT =  new Integer(e1 - e2); :}
+        |
+        expr:e1 MULT expr:e2
+          {: RESULT = new Integer(e1 * e2); :}
+        |
+        expr:e1 DIV expr:e2
+          {:
+            if (e2.intValue() != 0) {
+                RESULT = new Integer(e1 / e2);
+            } else {
+                RESULT = 0;
+                System.err.println("Division par 0 impossible");
+                erreur = true; 
+            }
+          :}

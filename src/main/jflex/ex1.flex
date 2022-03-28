@@ -22,30 +22,22 @@ import java_cup.runtime.Symbol;
 
 %}
 /* definitions regulieres */
-number  =   [0-9]
-plus    =   "+" 
-minus  =   "-"
-mult   =   "*"
-div     =   "/"
-sep     =   \s
-finish   =   [;]
+number  =   [0-9];
+plus    =   "+";
+minus  =   "-";
+mult   =   "*";
+div     =   "/";
+sep     =   \s;
+finish   =   [;];
 
 %% 
 /* ------------------------Section des Regles Lexicales----------------------*/
 
-/* regles */
-// {sep}+          { /* pas d'action */ }
-// {pronom}        { return new Symbol(SimpleParserSym.PRONOM, yyline, yycolumn); }
-// {verbe}         { return new Symbol(SimpleParserSym.VERBE, yyline, yycolumn); }
-// {adj}           { return new Symbol(SimpleParserSym.ADJECTIF, yyline, yycolumn); }
-// {point}         { return new Symbol(SimpleParserSym.POINT, yyline, yycolumn); }
-// ;               { return new Symbol(SimpleParserSym.ERROR, yyline, yycolumn); }
-
 {sep}+          { /* pas d'action */ }
-{number}        { return new Symbol(SimpleParserSym.PRONOM, yyline, yycolumn); }
-{plus}         { return new Symbol(SimpleParserSym.VERBE, yyline, yycolumn); }
-{minus}           { return new Symbol(SimpleParserSym.ADJECTIF, yyline, yycolumn); }
-{mult}           { return new Symbol(SimpleParserSym.ADJECTIF, yyline, yycolumn); }
-{div}           { return new Symbol(SimpleParserSym.ADJECTIF, yyline, yycolumn); }
-{finish}         { return new Symbol(SimpleParserSym.POINT, yyline, yycolumn); }
+{number}        { return new Symbol(SimpleParserSym.NUMBER, yyline, yycolumn, new Integer(yytext())); }
+{plus}         { return new Symbol(SimpleParserSym.PLUS, yyline, yycolumn); }
+{minus}           { return new Symbol(SimpleParserSym.MINUS, yyline, yycolumn); }
+{mult}           { return new Symbol(SimpleParserSym.MULT, yyline, yycolumn); }
+{div}           { return new Symbol(SimpleParserSym.DIV, yyline, yycolumn); }
+{finish}         { return new Symbol(SimpleParserSym.FINISH, yyline, yycolumn); }
 ;               { return new Symbol(SimpleParserSym.ERROR, yyline, yycolumn); }
